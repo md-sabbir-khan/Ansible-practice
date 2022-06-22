@@ -1,0 +1,14 @@
+---
+# vars file for Apache_5
+
+pkg:
+        - httpd
+        - firewalld
+
+service:
+        - httpd
+        - firewalld
+
+port:
+        - http
+        - https 

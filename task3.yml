@@ -1,0 +1,29 @@
+---
+- name: Package management 
+  hosts: all
+  vars:
+          packg:
+                  - php
+                  - mariadb
+  tasks:
+          - name: Installing Package php ans maria db
+            package:
+                    name: "{{ item }}"
+                    state: present
+            loop: "{{ packg }}"
+            when: inventory_hostname in groups['dev'] or inventory_hostname in groups['test'] or inventory_hostname in groups['pord']
+          - name: installing RPM devlopmet tools in dev
+            package:
+                    name: RPM Development Tools
+                    state: present
+            when: inventory_hostname in groups['dev']
+
+          - name: updating All package in dev group
+            yum:
+                    name: '*'
+                    state: latset
+            when: inventory_hostname in groups['dev']
+
+
+
+

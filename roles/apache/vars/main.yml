@@ -1,0 +1,17 @@
+---
+# vars file for apache
+webpackage:
+        - httpd
+        - firewalld
+        - mod_ssl
+        - openssl
+web_root: /var/www/html/
+secrete_dir: /etc/httpd/secrete/
+htpassword: .htpassword
+htpassword_dest: "{{ secrete_dir}}.htpassword"
+htaccess_file: .htaccess
+htaccess_dest: /var/www/html/
+ssl_crt_src: ftp://192.168.43.174/apache.crt
+ssl_crt_dest: /etc/ssl
+ssl_key_src: ftp://192.168.43.174/apache.key
+ssl_key_dest: "{{ ssl_crt_dest }}" 

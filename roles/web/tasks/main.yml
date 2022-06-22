@@ -1,0 +1,48 @@
+---
+# tasks file for web
+
+- name: Instaling web package
+  package:
+          name: "{{ item }}"
+          state: present
+  loop: "{{ web_package }}"
+
+- name: Starting Apache Service
+  service:
+          name: "{{ item }}"
+          state: started
+          enabled: yes
+  loop: "{{ web_service }}" 
+
+- name: copying webdata to Apache
+  template:
+          src: index.j2
+          dest: "{{ web_root }}/index.html"
+    
+
+- name: Copying Apache Config_file
+  template:
+          src: httpd.conf.j2
+          dest: /etc/httpd/conf.d/my_httpd.conf
+          owner: apache
+          group: apache
+          mode: 0755
+  notify:
+          - Restsrt apache
+
+- name: Allowing Firewall Port for Apache
+  firewalld:
+          port: "{{ item }}"
+          permanent: yes
+          immediate: yes
+          zone: trusted
+          state: enabled
+  loop: "{{ web_port }}"
+  ignore_errors: yes
+  notify:
+          - Restart firewall
+
+
+
+
+

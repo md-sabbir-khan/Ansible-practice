@@ -1,0 +1,33 @@
+---
+- name: Configuring Samba Client
+  hosts: servera.example.com
+  vars:
+          smb_server: "//192.168.43.174/commonshare"
+          pkg:
+                  - samba-client
+                  - cifs-utils
+          sambamount: /samba-share
+
+  tasks:
+          - name: Installing Dependences
+            package:
+                    name: "{{ item }}"
+                    state: present
+            loop: "{{ pkg }}"
+
+          - name: Creating Mount point for Samba client
+            file:
+                    path: "{{ sambamount }}"
+                    state: directory
+           
+          - name: Mounting samba server tol local share file
+             
+            mount:
+                     path: "{{ sambamount }}"
+                     src: "{{ smb_server }}"
+                     fstype: cifs
+                     state: mounted
+                     opts: "credentials=/.smb_passwd"
+
+
+

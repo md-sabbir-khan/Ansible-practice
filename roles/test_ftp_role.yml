@@ -1,0 +1,6 @@
+---
+- name: Configuring Ftp server
+  hosts: localhost
+  roles:
+          - role: ftp
+

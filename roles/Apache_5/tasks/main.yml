@@ -1,0 +1,37 @@
+---
+# tasks file for Apache_5
+#
+- name: Installing webserver
+  package:
+          name: "{{ item }}"
+          state: present    
+  loop: "{{ pkg }}"
+
+- name: starting apache server
+  service:
+          name: "{{ item }}"
+          state: started
+          enabled: yes
+  loop: "{{ service }}"   
+
+- name: Enablomng port for apache
+  firewalld:
+          service: "{{ item }}"
+          permanent: yes
+          immediate: yes
+          zone: trusted
+          state: enabled
+  loop: "{{ port }}"
+
+- name: Copying index file
+  template:
+          src: index.j2
+          dest: /var/www/html/index.html
+          owner: apache
+          group: apache
+          mode: 02775 
+  notify:
+          - Restart Apache
+
+
+  

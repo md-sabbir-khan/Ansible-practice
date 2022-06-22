@@ -1,0 +1,12 @@
+---
+- name: Configuring NTP using rehel-systemrol
+  hosts: all
+  vars:
+          timesync_ntp_server:
+                  - hostname: 172.25.254..250
+                    ibrust: yes
+  roles:
+          -/usr/share/ansible/roles/rhel-system-roles.timesync
+
+
+

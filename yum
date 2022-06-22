@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+amsible localhost -m yum_reposiory -a " name=ansible description=Redhat-repository baseurl=ftp://192.168.43.174/Data/Appstream mirrorlist=ftp://192.168.43.174/Data/BaseOS/ file=external_repo gpgcheck=no"

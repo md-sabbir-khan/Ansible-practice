@@ -1,0 +1,11 @@
+---
+- name: Testing ftp connection
+  hosts: localhost
+  tasks:
+          - name: Browsing Data from ftp-server
+            get_url:
+                    url: ftp://192.168.43.174/apache.key
+                    dest: /home/
+                    owner: apache
+                    group: apache
+                    mode: 06440

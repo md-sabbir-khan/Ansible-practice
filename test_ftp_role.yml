@@ -1,0 +1,5 @@
+---
+- name: Congiguring FTP server
+  hosts: localhost
+  roles:
+          - role: ftp

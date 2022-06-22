@@ -1,0 +1,8 @@
+---
+- name: generating host file 
+  hosts: all
+  tasks:
+          - name: comying data
+            template:
+                    src: generate_host.j2
+                    dest: /home/hosts

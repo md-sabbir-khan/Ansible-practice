@@ -1,0 +1,63 @@
+---
+- name: Comnfiguring Samba Sarver
+  hosts: localhost
+  vars:
+          smb_user: devops
+          smb_share_path: /samba
+          smb_hosts: 192.168.43.0/24
+          smb_userpass: redhat
+  tasks:
+          - name: Installing Samba server
+            package:
+                    name: samba
+                    state: present
+
+          - name: starting samba server
+            service:
+                    name: smb
+                    state: started
+                    enabled: yes
+
+          - name: Creating Samba share directory
+            file:
+                    path: "{{ smb_share_path }}"
+                    state: directory
+                    setype: samba_share_t
+  
+
+          - name: Allowing Firewall for Ssamba
+            firewalld:
+                    service: samba
+                    permanent: yes
+                    immediate: yes
+                    state: enabled
+                    zone: trusted
+            notify:
+                    - restart firewall
+
+
+          - name: Copying Samba configure file
+            template:
+                    src: samba.conf.j2
+                    dest: /etc/samba/smb.conf
+                    #owner: sambashare
+                    #group: sambashare
+                    # mode: 02755
+            notify:
+                    - Restart Samba
+
+          
+  handlers:
+          - name: Restart Samba
+            service:
+                    name: smb
+                    state: restarted
+          - name: restart firewall
+            service:
+                    name: firewalld
+                    state: restarted
+
+
+
+                          
+                      

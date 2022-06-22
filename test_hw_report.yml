@@ -1,0 +1,9 @@
+---
+- name: Generating Hardware report
+  hosts: localhost
+  tasks:
+          - name: copying Hw report to a file
+            template:
+                    src: hw_report.j2
+                    dest: /ansible/report.txt
+                               

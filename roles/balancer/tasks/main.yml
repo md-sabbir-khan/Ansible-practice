@@ -1,0 +1,23 @@
+---
+# tasks file for balancer
+
+- name: Installing HA-Proxy
+  package:
+          name: haproxy
+          state: present
+
+- name: Starting Haproxy
+  service:
+          name: haproxy
+          state: started
+          enabled: yes
+
+- name: Copying Haproxy config-file
+  template:
+    src: haproxy.conf.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+  notify:
+    - Restart Haproxy
+          
+

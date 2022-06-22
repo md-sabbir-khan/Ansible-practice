@@ -1,0 +1,52 @@
+---
+
+- name: Configuring nfs server
+  hosts: servera.example.com
+  vars:
+          # clientip: 0.0.0.0 
+          permission: (rw,root_squash)
+          sharepath: /nfs-share
+  tasks:
+          - name: Installing Nfs server
+            package:
+                    name: nfs-utils
+                    state: present
+
+          - name: Create sharefolder
+            file:
+                    path: "{{ sharepath }}"
+                    state: directory
+                    owner: root
+                    group: root
+                    mode: 0775
+          
+
+          - name: configuring nfs file
+            template:
+                    src: nfs_expots.j2
+                    dest: /etc/exports
+                    owner: root
+                    group: root
+                    mode: 0644
+            notify:
+                    - Restart nfs-server
+          - name: Starting nfs service
+            service:
+                    name: "{{ item }}"
+                    state: started
+                    enabled: yes
+            loop:
+                    - nfs-server
+                    - rpcbind
+
+          
+
+  handlers:
+          - name: Restart nfs-server
+            service:
+                    name: nfs-srver
+                    state: restarted
+
+
+          
+

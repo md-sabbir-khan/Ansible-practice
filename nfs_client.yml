@@ -1,0 +1,29 @@
+---
+
+- name: configuring nfs client
+  hosts: serverb.example.com
+  vars:
+          sharefolder: /nfs-client
+          nfssource: servera.example.com:/nfs-share
+  tasks:
+          - name: installing nfs package
+            package:
+                    name: nfs-utils
+                    state: present
+
+          - name: creating mout point
+            file:
+                    path: "{{ sharefolder }}"
+                    state: directory
+                    owner: root
+                    group: root
+                    mode: 0775
+
+          - name: Mounting Nfs drive to locally 
+            mount:
+                    path: "{{ sharefolder}}"
+                    src: "{{ nfssource }}"
+                    state: mounted
+                    fstype: nfs
+
+

@@ -1,0 +1,44 @@
+---
+# tasks file for ftp
+- name: Installing FTP server
+  package:
+          name: vsftpd
+          state: present
+- name: Configuring FTP server
+  lineinfile:
+          path: /etc/vsftpd/vsftpd.conf
+          regexp: '^anonymous'
+          line: 'anonymous_enable=yes'
+  notify:
+    - restart ftp server
+
+- name: Allowing Forewall for ftp
+  firewalld:
+          service: ftp
+          permanent: yes
+          immediate: yes
+          zone: trusted
+          state: enabled
+  notify: 
+    - restsrt firewall server
+
+- name: starting FTP server
+  service:
+          name: vsftpd
+          state: started
+          enabled: yes
+
+- name: Creating Directory for FTP
+  file:
+          path: /var/ftp/Data/
+          state: directory 
+
+- name: Mounting directory to ftp server
+  mount:
+        src: /dev/cdrom
+        path: /var/ftp/Data/
+        fstype: iso9660
+        state: present
+  notify:
+          - restart ftp server 
+

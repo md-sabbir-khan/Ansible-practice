@@ -1,0 +1,12 @@
+---
+
+- name: configuring NFS server
+  hosts: servera.example.com
+  tasks:
+          - name: Installing Nfs packages
+            package:
+                    name: nsf-utils
+                    state: present
+                    enabled: yes
+          - name: Starting nfs service 
+

@@ -1,0 +1,89 @@
+---
+# tasks file for apache
+- name: installing Package
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ webpackage }}"
+
+- name: Creating web page
+  copy:
+          content: " Hello Apache I am from Ansible my ip is {{ ansible_default_ipv4.address }}"
+          dest: "{{ web_root }}index.html"
+  notify: 
+    - restart apache
+
+- name: Creating Apache Config
+  template:
+          src: httpd.conf.j2
+          dest: /etc/httpd/conf.d/my.conf
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: creating secrete directory
+  file:
+          path: /etc/httpd/secrete
+          state: directory
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: Copying htpassword
+  copy:
+          src: .htpassword
+          dest: "{{ htpassword_dest }}"
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: Copying Htacces
+  template:
+          src: htaccess.conf.j2
+          dest: "{{ htaccess_dest }}"
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: Copying ssl certificate
+  get_url:
+          url: "{{ssl_crt_src}}"
+          dest: "{{ ssl_crt_dest }}"
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: Copying ssl_key
+  get_url:
+          url: "{{ ssl_key_src }}"
+          dest: "{{ ssl_key_dest }}"
+          owner: apache
+          group: apache
+          mode: 06440
+
+- name: Starting Apache
+  service:
+          name: httpd
+          state: started
+          enabled: yes
+
+- name: Allowing Firewalld Port for Apache
+  firewalld:
+          port: 80/tcp
+          permanent: yes
+          immediate: yes
+          zone: trusted
+          state: enabled
+
+- name: Allowing Firewalld Port for Apache
+  firewalld:
+          port: 443/tcp
+          permanent: yes
+          immediate: yes
+          zone: trusted
+          state: enabled
+
+ 
+
+
+

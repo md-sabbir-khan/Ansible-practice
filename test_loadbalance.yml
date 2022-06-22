@@ -1,0 +1,12 @@
+---
+- name: Configuring Loadbalancer
+  hosts: lb
+  gather_facts: no
+  roles:
+          - role: balancer
+
+- name: Configuring Webserver
+  hosts: web
+  gather_facts: no 
+  roles:
+          - role: web

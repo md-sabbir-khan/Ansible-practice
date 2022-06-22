@@ -1,0 +1,5 @@
+---
+# vars file for balancer
+frontend_port: 80
+webserver_group: web
+webserver_port: 80

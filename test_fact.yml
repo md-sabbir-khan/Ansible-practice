@@ -1,0 +1,8 @@
+---
+- name: testing Ansible Fact
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+          - name: printing ip address
+            debug:
+                    msg: "hello from {{ ansible_facts['fqdn'] }} ip : {{ ansible_default_ipv4.address }}"

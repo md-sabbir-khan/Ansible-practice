@@ -1,0 +1,23 @@
+---
+- name: Configuring Apache server
+  hosts: web
+  vars_files:
+          - password.yml
+  roles:
+          - role: apache
+  tasks:
+          - name: Testing Website
+            uri:
+                    url: https://192.168.43.174
+                    user: redhat
+                    password: "{{ webpass }}" 
+                    validate_certs: no
+                    status_code: 200
+                    return_content: yes
+            register: x
+
+          - name: Printing Web Content  
+            debug:
+                    msg: x.content
+
+    

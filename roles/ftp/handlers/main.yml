@@ -1,0 +1,13 @@
+---
+# handlers file for ftp
+
+- name: restart ftp server
+  service:
+          name: vsftpd
+          stare: restarted
+
+- name: restart firewall server 
+  service:
+          name: firewalld
+          state: restarted
+

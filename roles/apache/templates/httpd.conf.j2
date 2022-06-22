@@ -1,0 +1,15 @@
+Listen 443 https
+
+<VirtualHost _default_:443>
+
+DocumentRoot "{{ web_root }}"
+ServerName {{ ansible_hostname }}:443
+SSLEngine on
+SSLCertificateFile {{ ssl_crt_dest }}/apache.crt
+SSLCertificateKeyFile {{ ssl_crt_dest }}/apache.key
+
+</VirtualHost>
+<Directory {{ web_root }}>
+AllowOverride All
+
+</Directory>

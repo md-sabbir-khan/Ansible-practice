@@ -1,0 +1,15 @@
+---
+# tasks file for roles/hellophp
+
+- name: Installing PHP
+  package:
+          name: php
+          state: present
+- name: installing Apache
+  package:
+          name: httpd
+          state: present
+- name: Starting Apache
+  service:
+          name: httpd
+          stste: present

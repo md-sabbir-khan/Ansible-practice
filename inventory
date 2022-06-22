@@ -1,0 +1,13 @@
+#[controller]
+#192.168.43.174
+
+[lb]
+servera.example.com
+
+
+[web]
+serverb.example.com
+serverc.example.com
+
+[dev]
+serverc.example.com

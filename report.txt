@@ -1,0 +1,18 @@
+---
+Hello wel-comr to works_station
+
+IP-ADDRESS :  192.168.43.174
+
+TOTTAL MEMORY IN MB : 981
+
+TOTAL FREE RAM : 391
+
+BIOS VERSION : VirtualBox
+
+SIZE OF SDA : 16.00 GB
+
+
+
+
+
+

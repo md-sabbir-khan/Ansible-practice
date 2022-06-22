@@ -1,0 +1,6 @@
+---
+- name: Configuring Apache roles
+  hosts: web
+  roles:
+          - role:
+                  Apache_5
